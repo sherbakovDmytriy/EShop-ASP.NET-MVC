@@ -63,7 +63,7 @@ namespace DAL
             return await _dbSet.FindAsync(id);
         }
 
-        public async Task<TEntity> FirstWithInclude(params Expression<Func<TEntity, object>>[] includeProperties)
+        public async Task<TEntity> FirstWithInclude(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties)
         {
             return await Include(includeProperties)
                 .FirstOrDefaultAsync();

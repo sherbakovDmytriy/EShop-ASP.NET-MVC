@@ -17,7 +17,7 @@ namespace DAL
             params Expression<Func<TEntity, object>>[] includeProperties);
 
         Task<TEntity> FindById(int id);
-        Task<TEntity> FirstWithInclude(params Expression<Func<TEntity, object>>[] includeProperties);
+        Task<TEntity> FirstWithInclude(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties);
 
         #endregion
 
