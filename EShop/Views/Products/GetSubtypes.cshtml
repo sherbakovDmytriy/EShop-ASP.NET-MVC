@@ -1,0 +1,9 @@
+﻿@{
+    Layout = null;
+}
+<select id="SubtypeId" name="SubtypeModelId" class="form-control">
+    @foreach (var item in Model)
+    {
+        <option value="@item.Id">@item.Name</option>
+    }
+</select>

@@ -1,0 +1,88 @@
+﻿@model EShop.Models.ProductModel
+
+@{
+    ViewBag.Title = "ProductModel";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+<div class="pruduct-in-cart" id="pruduct-in-cart" style="display: none;">
+    <span>Товар добавлен в корзину</span>
+</div>
+
+<div class="content">
+    <div class="product">
+        <div class="grid">
+            <div class="product__image">
+                @Html.Raw("<img width='100%' src=/Pictures/" + Model.PictureName + " />")
+                <div class="discount"><span>-25%</span></div>
+            </div>
+
+            <div class="product__info">
+                
+                <span id="data-id" data-id="@Model.Id" style="display: none"></span>
+
+                @*<div class="product__info_presence color-red"><span>Есть в наличии</span></div>
+                <div class="product__info_code"><span>874182413</span></div>*@
+
+                <div class="product__info_name">
+                    <span>@Model.Name</span>
+                </div>
+
+                @*<div class="product__info_type">
+                    <span>Теги:</span>
+                    <span>Accessories, Baby Boy, Baby Girl, Blue Jeans, Bottoms</span>
+                </div>*@
+                <div class="product__info_brand">
+                    <span>Торговая марка:</span>
+                    <span>@Model.TradeMarkModel.Name</span>
+                    @*<span>Украина</span>*@
+                </div>
+                <div class="product__info_sex">
+                    <span>Категория:</span>
+                    <span>@Model.TypeModel.Name</span>
+                    @*<span>3-6 лет</span>*@
+                </div>
+                <div class="product__info_consist">
+                    <span>Состав:</span>
+                    <span>@Model.Materials</span>
+                </div>
+
+                <div class="buy-grid">
+                    <div class="product__info_price"><span>@Model.Price грн</span></div>
+                    <button class="button button_blue" id="add-to-cart">
+                        <span class="icon-basket icon"></span>
+                        <span>Купить</span>
+                    </button>
+                </div>
+
+                <div class="product__info_color">
+                    <span>Размер:</span>
+                    <select class="dropdown" id="sizesSelect">
+                        @foreach (var size in Model.Sizes)
+                        {
+                            <option value="@size.Id">
+                                @size.Name
+                            </option>
+                        }
+                    </select>
+                </div>
+                @*<div class="product__info_size">
+                    <span>Размер:</span>
+                    <div class="size-list">
+                        <a href="#" class="size-list__item"><span>S</span></a>
+                        <a href="#" class="size-list__item"><span>M</span></a>
+                        <a href="#" class="size-list__item"><span>L</span></a>
+                    </div>
+                </div>*@
+
+                <div class="product__info_description">
+                    <h3>Описание:</h3>
+                    <span>@Model.Description</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/Scripts/product.js")

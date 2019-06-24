@@ -1,0 +1,82 @@
+﻿@model IEnumerable<EShop.Models.Products.LandingModel>
+@{
+    ViewBag.Title = "Landing";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+<div class="banner-container">
+    <a class="banner-container__item banner-container__item_1" href="/Home/Filters/6">
+        <img src="~/Content/img/b4.jpg" height="100%" alt="" />
+    </a>
+    <a class="banner-container__item banner-container__item_2" href="/Home/Filters/6">
+        <img src="~/Content/img/b5.jpg" height="100%" alt="" />
+    </a>
+</div>
+
+<div class="content">
+    <h2 class="title_home">Акции</h2>
+
+    <div class="featured">
+        <a href="/Home/Filters/6">
+            <div class="featured__item hot">
+                <div class="featured__item-content">
+                    <p class="hot_subheader">Счастливых праздников!</p>
+                    <p class="hot_header">Скидка<span>40%</span></p>
+                    <p class="hot_info">На все товары от 1000 грн</p>
+                </div>
+            </div>
+        </a>
+
+        <a href="/Home/Filters/6">
+            <div class="featured__item">
+                <div class="featured__item-content">
+                    <img src="~/Content/img/b2.jpg" alt="image 1" width="100%" />
+                </div>
+            </div>
+        </a>
+
+        <a href="/Home/Filters/6">
+            <div class="featured__item">
+                <div class="featured__item-content">
+                    <img src="~/Content/img/b3.jpg" alt="image 1" width="100%" />
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<div class="content">
+    <h2 class="title_home">Популярные продукты</h2>
+
+
+    <div class="product-list product-list_home">
+        @foreach (var product in Model)
+        {
+            <div class="product-list__item">
+                <div class="product-preview">
+                    <a href="/Home/Product/@product.Id">
+                        <div class="product-preview__photo">
+                            @Html.Raw("<img width='100%' src=/Pictures/" + product.PictureName + " />")
+                            <div class="discount"><span>-25%</span></div>
+                        </div>
+                    </a>
+
+                    <div class="product-preview__info">
+                        <div class="product-preview__info-type"><span>@product.Type.Name</span></div>
+                        <div class="product-preview__info-name"><span>@product.Name</span></div>
+                        <div class="product-preview__info-price"><span>@product.Price грн</span></div>
+
+                        <a href="/Home/Product/@product.Id">
+                            <div class="product-preview__action">
+                                <div class="link link_buy">
+                                    <span class="icon-basket icon"></span>
+                                    <span>Купить</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

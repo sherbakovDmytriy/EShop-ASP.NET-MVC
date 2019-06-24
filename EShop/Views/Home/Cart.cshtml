@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+<div class="content">
+    <div class="cart">
+        <div class="cart-list" id="cart-list">
+        </div>
+
+        <div class="cart-panel">
+            <div class="cart-panel_border">
+                <div class="cart-panel__item cart-panel__item_center">
+                    <div class="cart-panel__item-subtitle"><span>Сумма заказа:</span></div>
+                    <div class="cart-panel__item-total"><span>49.9$</span></div>
+                </div>
+
+                <div class="cart-panel__item">
+                    <div class="cart-panel__item-subtitle"><span>Способ оплаты:</span></div>
+                    <div class="cart-panel__item-selectbox">
+                        <select class="dropdown">
+                            <option value="volvo">Приват Банк</option>
+                            <option value="saab">Sort by popularity</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="cart-panel__item">
+                    <div class="cart-panel__item-subtitle"><span>Способ доставки:</span></div>
+                    <div class="cart-panel__item-selectbox">
+                        <select class="dropdown">
+                            <option value="volvo">Новая почта</option>
+                            <option value="saab">Sort by popularity</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="cart-panel__item cart-panel__item_center cart-panel__item_action">
+                    <button class="button button_blue">
+                        <span class="icon-wallet icon"></span>
+                        <span>Оформить заказ</span>
+                    </button>
+
+                    <button class="button button_yellow">
+                        <span class="icon-question icon"></span>
+                        <span>Задать вопрос</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/Scripts/cart.js")

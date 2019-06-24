@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans|Quicksand:300,700&amp;subset=cyrillic" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css">
+    <link rel="stylesheet" type="text/css" runat="server" href="~/Content/screen.css">
+    <title>Kids Store</title>
+</head>
+<body>
+    <header>
+        <div class="content">
+            <div class="header-contact">
+                <a href="#" class="header-contact__item">
+                    <span class="icon-call-end icon"></span>
+                    <span>+38 (093) 22-187-43</span>
+                </a>
+
+                <div class="header-contact__item">
+                    <span class="icon-clock icon"></span>
+                    <span>7 days a week from 9:00 AM to 7:00 PM</span>
+                </div>
+            </div>
+        </div>
+        <div class="header">
+            <div class="content flex">
+                <div class="logo">
+                    <img runat="server" src="~/Content/img/logo.png" alt="" width="100%">
+                </div>
+                <input type="checkbox" id="nav-toggle">
+                
+                <ul class="header-nav header-nav_left" id="typesMenu">
+                    <li>
+                        <a href="/">Главная</a>
+                    </li>
+                    <label class="header__toggle" for="nav-toggle">
+                        <span class="icon-list icon"></span>
+                    </label>
+                </ul>
+
+                <ul class="header-nav header-nav_right">
+                    @*<li>
+                        <a href="#">
+                            <span class="icon-magnifier icon"></span>
+                            <span>Поиск</span>
+                        </a>
+                    </li>*@
+                    <li>
+                        <a href="/Home/Cart">
+                            <span class="icon-basket icon"></span>
+                            <span>Корзина</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    @RenderBody()
+
+    <footer class="footer">
+        <div class="content footer-content">
+            <div class="footer-content__item footer-content__item_about">
+                <h3>about</h3>
+                <span>With all of our team members being happy parents themselves, we have the experience and the caring it takes to run the best clothing e-store for happy kids and happy parents. Our store has a real range of both the clothing and shoes, diverse enough in its styleing and size to fit for kids of all ages - starting with toddlers and infants, and finishing with middle schoolers and teens!</span>
+            </div>
+
+            <div class="footer-content__item">
+                <h3>categories</h3>
+                <ul class="tag-list">
+                    <div class="tag-list__column">
+                        <li><a href="#">Accessories</a></li>
+                        <li><a href="#">Baby Boy</a></li>
+                        <li><a href="#">Baby Girl</a></li>
+                        <li><a href="#">Blue Jeans</a></li>
+                        <li><a href="#">Bottoms</a></li>
+                    </div>
+                    <div class="tag-list__column">
+                        <li><a href="#">Accessories Baby Boy</a></li>
+                        <li><a href="#">Baby Boy Baby Boy</a></li>
+                        <li><a href="#">Baby Girl</a></li>
+                        <li><a href="#">Blue Jeans Baby Girl</a></li>
+                        <li><a href="#">Bottoms</a></li>
+                    </div>
+                </ul>
+            </div>
+
+            <div class="footer-content__item footer-content__item_contacts">
+                <h3>contacts</h3>
+
+                <a href="#" class="contact">
+                    <span class="icon-call-end icon"></span>
+                    <span>+38 (093) 22-187-43</span>
+                </a>
+
+                <div class="contact">
+                    <span class="icon-clock icon"></span>
+                    <span>7 days a week from 9:00 AM to 7:00 PM</span>
+                </div>
+
+                <a href="#" class="contact">
+                    <span class="icon-envelope icon"></span>
+                    <span>info@demolink.org</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+
+    <script>
+        $.ajax({
+            type: "POST",
+            url: '/Home/Types/',
+            success: function (data) {
+                $("#typesMenu li").after(data);
+            }
+        });
+    </script>
+
+</body>
+</html>

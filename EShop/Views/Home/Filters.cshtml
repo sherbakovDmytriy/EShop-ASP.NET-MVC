@@ -1,0 +1,136 @@
+﻿@{
+    ViewBag.Title = "Catalog";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+<div class="content">
+    <div class="grid grid_shop">
+
+        <input type="checkbox" id="filter-toggle">
+        <div class="filter-list-mobile">
+            <span>Фильтры</span>
+            <label class="filter-toggle" for="filter-toggle">
+                <span class="icon-arrow-down icon"></span>
+            </label>
+        </div>
+
+        <div class="filter-list">
+            <form action="@Request.Url.PathAndQuery" method="GET">
+
+                <div class="filter-list__item">
+                    <h4>Категория</h4>
+
+                    <ul class="tag-list">
+                        @if (ViewBag.type.Subtypes.Count == 1)
+                        {
+                            <li class="filter-item">
+                                <input name="categoryId" type="checkbox" value="@ViewBag.type.Subtypes.First().Id" style="display: none;" />
+                                <input type="submit" value="@ViewBag.type.Subtypes.First().Name" style="border: none; background: none;">
+                            </li>
+                        }
+                        else
+                        {
+                            foreach (var subtype in ViewBag.type.Subtypes)
+                            {
+                                <li class="filter-item">
+                                    <input name="categoryId" type="checkbox" value="@subtype.Id" style="display: none;" />
+                                    <input type="submit" value="@subtype.Name" style="border: none; background: none;">
+                                </li>
+                            }   
+                        }
+                    </ul>
+                </div>
+
+                <div class="filter-list__item">
+                    <h4>Размер</h4>
+                    <ul class="tag-list">
+                        @foreach (var size in ViewBag.sizes)
+                        {
+                        <li class="filter-item">
+                            <input name="sizeId" type="checkbox" value="@size.Id" style="display: none;" />
+                            <input type="submit" value="@size.Name" style="border: none; background: none;">
+                        </li>
+                        }
+                    </ul>
+                </div>
+
+                <div class="filter-list__item">
+                    <h4>Производитель</h4>
+                    <ul class="tag-list">
+                        @foreach (var tradeMark in ViewBag.tradeMarks)
+                        {
+                            <li class="filter-item">
+                                <input name="tradeMarkId" type="checkbox" value="@tradeMark.Id" style="display: none;" />
+                                <input type="submit" value="@tradeMark.Name" style="border: none; background: none;">
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="shop">
+            <h1>@ViewBag.type.Name</h1>
+
+            <div class="action-panel">
+                <select class="dropdown">
+                    <option value="volvo">Default sorting</option>
+                    <option value="saab">Sort by popularity</option>
+                    <option value="mercedes">Sort by average rating</option>
+                    <option value="audi">Sort by newness</option>
+                    <option value="audi">Sort by price: low to high</option>
+                    <option value="audi">Sort by price: high to low</option>
+                </select>
+
+                <div class="text"><span>Showing 1–10 of 20 results</span></div>
+
+                @*<div>
+                        <div class="sorting-item sorting-item_row"><span class="icon-list icon"></span></div>
+                        <div class="sorting-item sorting-item_card"><span class="icon-grid icon"></span></div>
+                    </div>*@
+            </div>
+
+            <div class="product-list">
+                @foreach (var product in ViewBag.products)
+                {
+                    <div class="product-list__item">
+                        <div class="product-preview">
+                            <a href="/Home/Product/@product.Id">
+                                <div class="product-preview__photo">
+                                    @Html.Raw("<img width='100%' src=/Pictures/" + product.PictureName + " />")
+                                    <div class="discount"><span>-25%</span></div>
+                                </div>
+                            </a>
+
+                            <div class="product-preview__info">
+                                <div class="product-preview__info-type"><span>@product.Subtype.Name</span></div>
+                                <div class="product-preview__info-name"><span>@product.Name</span></div>
+                                <div class="product-preview__info-price"><span>@product.Price грн</span></div>
+
+                                <a href="/Home/Product/@product.Id">
+                                    <div class="product-preview__action">
+                                        <div class="link link_buy">
+                                            <span class="icon-basket icon"></span>
+                                            <span>Купить</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            @*<div class="pages-nav">
+                    <a href="#" class="pages-nav__item"><span>Previous</span></a>
+                    <a href="#" class="pages-nav__item active"><span>1</span></a>
+                    <a href="#" class="pages-nav__item"><span>2</span></a>
+                    <a href="#" class="pages-nav__item"><span>3</span></a>
+                    <a href="#" class="pages-nav__item"><span>Next</span></a>
+                </div>*@
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/Scripts/filters.js")
