@@ -10,6 +10,7 @@ using BLL;
 using EShop.Models;
 using EShop.Models.Products;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace EShop.Controllers
 {
@@ -29,10 +30,10 @@ namespace EShop.Controllers
             return View();
         }
 
-        public ActionResult Landing()
+        public async Task<ActionResult> Landing()
         {
-            List<ProductDTO> productsDTO = _productService.GetProducts(5);
-            List<LandingVM> products = _automapper.Map<List<LandingVM>>(productsDTO);
+            var productsDTO = await _productService.GetProducts(5);
+            var products = _automapper.Map<List<LandingVM>>(productsDTO);
 
             return View(products);
         }

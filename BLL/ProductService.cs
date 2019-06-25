@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using BLL.DTO;
 using DAL;
 using DAL.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace BLL
@@ -18,23 +18,28 @@ namespace BLL
             _automapper = automapper;
         }
 
-        public async Task<IEnumerable<Product>> GetProducts(int? limit = null)
+        public async Task<IEnumerable<ProductDTO>> GetProducts(int? limit = null)
         {
-            return await _unitOfWork.GetRepository<Product>()
+            var products = await _unitOfWork.GetRepository<Product>()
                 .GetWithInclude(limit, p => p.Sizes, p => p.Type, p => p.Subtype, p => p.TradeMark);
+
+            return _automapper.Map<IEnumerable<ProductDTO>>(products);
         }
 
-        public async Task<Product> GetProduct(int id)
+        public async Task<ProductDTO> GetProduct(int id)
         {
-            return await _unitOfWork
+            var product = await _unitOfWork
                 .GetRepository<Product>()
                 .FirstWithInclude
                 (
+                    p => p.Id == id,
                     p => p.Sizes,
                     p => p.Type,
                     p => p.Subtype,
                     p => p.TradeMark
                 );
+
+            return _automapper.Map<ProductDTO>(product);
         }
     }
 }

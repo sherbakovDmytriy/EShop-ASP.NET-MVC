@@ -51,6 +51,11 @@
     <Compile Include="DI\BLLDIModule.cs" />
     <Compile Include="IProductService.cs" />
     <Compile Include="Mappers\BLLMappingsProfile.cs" />
+    <Compile Include="DTO\ProductDTO.cs" />
+    <Compile Include="DTO\SizeDTO.cs" />
+    <Compile Include="DTO\SubtypeDTO.cs" />
+    <Compile Include="DTO\TradeMarkDTO.cs" />
+    <Compile Include="DTO\TypeDTO.cs" />
     <Compile Include="ProductService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
