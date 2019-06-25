@@ -66,7 +66,7 @@ namespace DAL
         public async Task<TEntity> FirstWithInclude(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties)
         {
             return await Include(includeProperties)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(predicate);
         }
 
         #endregion
