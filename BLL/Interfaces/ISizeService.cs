@@ -1,0 +1,27 @@
+﻿using BLL.DTO;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BLL.Interfaces
+{
+    public interface ISizeService
+    {
+        #region Get
+
+        Task<IEnumerable<SizeDTO>> GetTradeMarksAsync(int? limit = null);
+        Task<SizeDTO> GetTradeMarkAsync(int Id);
+
+        #endregion
+
+        #region Create Edit Delete
+
+        Task<bool> CreateAsync(SizeDTO model);
+        Task<bool> EditAsync(SizeDTO model);
+        Task<bool> DeleteAsync(int Id);
+
+        #endregion
+    }
+}

@@ -8,7 +8,5 @@ namespace EShop.Models
         public int Id { get; set; }
 
         public string Name { get; set; }
-
-        public IEnumerable<ProductVM> Products { get; set; }
     }
 }
