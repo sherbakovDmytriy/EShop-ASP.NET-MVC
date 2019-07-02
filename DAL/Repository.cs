@@ -71,7 +71,7 @@ namespace DAL
 
         #endregion
 
-        #region CRUD
+        #region Create Edit Delete
 
         public void Add(TEntity item)
         {

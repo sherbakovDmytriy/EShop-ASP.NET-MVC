@@ -21,7 +21,7 @@ namespace DAL
 
         #endregion
 
-        #region CRUD
+        #region #region Create Edit Delete
 
         void Add(TEntity item);
         void AddRange(IEnumerable<TEntity> entities);
