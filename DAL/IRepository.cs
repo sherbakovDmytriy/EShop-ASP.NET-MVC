@@ -25,7 +25,7 @@ namespace DAL
 
         void Add(TEntity item);
         void AddRange(IEnumerable<TEntity> entities);
-        void Update(TEntity item);
+        void Edit(TEntity item);
         void Remove(TEntity item);
         void RemoveRange(IEnumerable<TEntity> entities);
         Task<int> SaveAsync();

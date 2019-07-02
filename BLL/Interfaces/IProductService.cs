@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BLL
+namespace BLL.Interfaces
 {
     public interface IProductService
     {

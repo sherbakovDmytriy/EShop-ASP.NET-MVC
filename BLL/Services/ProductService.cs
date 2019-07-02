@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using BLL.DTO;
+using BLL.Interfaces;
 using DAL;
 using DAL.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BLL
+namespace BLL.Services
 {
     class ProductService : IProductService
     {

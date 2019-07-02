@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using EShop.Models.Products;
+using System.Collections.Generic;
 
 namespace EShop.Models
 {

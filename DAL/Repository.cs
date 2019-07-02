@@ -29,7 +29,7 @@ namespace DAL
                     .ToListAsync();
             }
 
-            return _dbSet.ToList();
+            return await _dbSet.ToListAsync();
         }
 
         public async Task<IEnumerable<TEntity>> GetWithInclude(int? limit = null, params Expression<Func<TEntity, object>>[] includeProperties)
@@ -83,7 +83,7 @@ namespace DAL
             _dbSet.AddRange(entities);
         }
 
-        public void Update(TEntity item)
+        public void Edit(TEntity item)
         {
             _context.Entry(item).State = EntityState.Modified;
         }

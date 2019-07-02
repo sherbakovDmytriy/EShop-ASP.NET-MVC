@@ -173,11 +173,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Mappers\EShopMappingsProfile.cs" />
-    <Compile Include="Models\ProductVM.cs" />
+    <Compile Include="Models\Products\ProductVM.cs" />
     <Compile Include="Models\Products\LandingVM.cs" />
     <Compile Include="Models\SizeVM.cs" />
     <Compile Include="Models\SubtypeVM.cs" />
-    <Compile Include="Models\TradeMarkVM.cs" />
+    <Compile Include="Models\TradeMarks\TradeMarkCreateEditVM.cs" />
+    <Compile Include="Models\TradeMarks\TradeMarkVM.cs" />
     <Compile Include="Models\TypeVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

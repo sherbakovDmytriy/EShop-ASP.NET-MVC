@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using BLL.Interfaces;
+using BLL.Services;
 using DAL.DI;
 
 namespace BLL.DI
@@ -9,6 +11,7 @@ namespace BLL.DI
         {
             builder.RegisterModule<DALDIModule>();
             builder.RegisterType<ProductService>().As<IProductService>();
+            builder.RegisterType<TradeMarkService>().As<ITradeMarkService>();
         }
     }
 }

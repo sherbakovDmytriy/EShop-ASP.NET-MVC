@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using EShop.Models.TradeMarks;
+using System.Collections.Generic;
 
-namespace EShop.Models
+namespace EShop.Models.Products
 {
     public class ProductVM
     {

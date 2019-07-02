@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using AutoMapper;
-using BLL.DTO;
-using BLL;
-using EShop.Models;
+﻿using AutoMapper;
+using BLL.Interfaces;
 using EShop.Models.Products;
-using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace EShop.Controllers
 {

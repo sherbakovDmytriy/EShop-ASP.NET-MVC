@@ -49,15 +49,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DI\BLLDIModule.cs" />
-    <Compile Include="IProductService.cs" />
+    <Compile Include="Interfaces\IProductService.cs" />
+    <Compile Include="Interfaces\ITradeMarkService.cs" />
     <Compile Include="Mappers\BLLMappingsProfile.cs" />
     <Compile Include="DTO\ProductDTO.cs" />
     <Compile Include="DTO\SizeDTO.cs" />
     <Compile Include="DTO\SubtypeDTO.cs" />
     <Compile Include="DTO\TradeMarkDTO.cs" />
     <Compile Include="DTO\TypeDTO.cs" />
-    <Compile Include="ProductService.cs" />
+    <Compile Include="Services\ProductService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\TradeMarkService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">
@@ -69,5 +71,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
