@@ -73,9 +73,14 @@ namespace DAL
 
         #region CRUD
 
-        public void Create(TEntity item)
+        public void Add(TEntity item)
         {
             _dbSet.Add(item);
+        }
+
+        public void AddRange(IEnumerable<TEntity> entities)
+        {
+            _dbSet.AddRange(entities);
         }
 
         public void Update(TEntity item)
@@ -86,6 +91,16 @@ namespace DAL
         public void Remove(TEntity item)
         {
             _dbSet.Remove(item);
+        }
+
+        public void RemoveRange(IEnumerable<TEntity> entities)
+        {
+            _dbSet.RemoveRange(entities);
+        }
+
+        public async Task<int> SaveAsync()
+        {
+            return await _context.SaveChangesAsync();
         }
 
         #endregion
