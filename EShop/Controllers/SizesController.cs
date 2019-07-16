@@ -1,128 +1,112 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Data;
-//using System.Data.Entity;
-//using System.Linq;
-//using System.Net;
-//using System.Web;
-//using System.Web.Mvc;
-//using EShop.Data;
-//using EShop.Models;
+﻿using AutoMapper;
+using BLL.DTO;
+using BLL.Interfaces;
+using EShop.Models.Sizes;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
-//namespace EShop.Controllers
-//{
-//    public class SizesController : Controller
-//    {
-//        private ApplicationDbContext db = new ApplicationDbContext();
+namespace EShop.Controllers
+{
+    public class SizesController : Controller
+    {
+        private readonly ISizeService _sizeService;
+        private readonly IMapper _automapper;
 
-//        // GET: Sizes
-//        public ActionResult Index()
-//        {
-//            return View(db.Sizes.ToList());
-//        }
+        public SizesController(ISizeService sizeService, IMapper automapper)
+        {
+            _sizeService = sizeService;
+            _automapper = automapper;
+        }
 
-//        // GET: Sizes/Details/5
-//        public ActionResult Details(int? id)
-//        {
-//            if (id == null)
-//            {
-//                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-//            }
-//            SizeModel size = db.Sizes.Find(id);
-//            if (size == null)
-//            {
-//                return HttpNotFound();
-//            }
-//            return View(size);
-//        }
+        // GET: Sizes
+        [HttpGet]
+        public async Task<ActionResult> Index()
+        {
+            var sizesDTO = await _sizeService.GetSizesAsync(10);
+            var sizes = _automapper.Map<IEnumerable<SizeVM>>(sizesDTO);
+            return View(sizes);
+        }
 
-//        // GET: Sizes/Create
-//        public ActionResult Create()
-//        {
-//            return View();
-//        }
+        // GET: Sizes/Details/5
+        [HttpGet]
+        public async Task<ActionResult> Details(int Id)
+        {
+            var sizeDTO = await _sizeService.GetSizeAsync(Id);
 
-//        // POST: Sizes/Create
-//        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-//        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-//        [HttpPost]
-//        [ValidateAntiForgeryToken]
-//        public ActionResult Create([Bind(Include = "Id,Name")] SizeModel size)
-//        {
-//            if (ModelState.IsValid)
-//            {
-//                db.Sizes.Add(size);
-//                db.SaveChanges();
-//                return RedirectToAction("Index");
-//            }
+            if (sizeDTO == null)
+                return HttpNotFound();
 
-//            return View(size);
-//        }
+            return View(_automapper.Map<SizeVM>(sizeDTO));
+        }
 
-//        // GET: Sizes/Edit/5
-//        public ActionResult Edit(int? id)
-//        {
-//            if (id == null)
-//            {
-//                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-//            }
-//            SizeModel size = db.Sizes.Find(id);
-//            if (size == null)
-//            {
-//                return HttpNotFound();
-//            }
-//            return View(size);
-//        }
+        // GET: Sizes/Create
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
 
-//        // POST: Sizes/Edit/5
-//        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-//        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-//        [HttpPost]
-//        [ValidateAntiForgeryToken]
-//        public ActionResult Edit([Bind(Include = "Id,Name")] SizeModel size)
-//        {
-//            if (ModelState.IsValid)
-//            {
-//                db.Entry(size).State = EntityState.Modified;
-//                db.SaveChanges();
-//                return RedirectToAction("Index");
-//            }
-//            return View(size);
-//        }
+        // POST: Sizes/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(SizeCreateEditVM model)
+        {
+            var sizeDTO = _automapper.Map<SizeDTO>(model);
 
-//        // GET: Sizes/Delete/5
-//        public ActionResult Delete(int? id)
-//        {
-//            if (id == null)
-//            {
-//                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-//            }
-//            SizeModel size = db.Sizes.Find(id);
-//            if (size == null)
-//            {
-//                return HttpNotFound();
-//            }
-//            return View(size);
-//        }
+            if (await _sizeService.CreateAsync(sizeDTO) == false)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Create error");
 
-//        // POST: Sizes/Delete/5
-//        [HttpPost, ActionName("Delete")]
-//        [ValidateAntiForgeryToken]
-//        public ActionResult DeleteConfirmed(int id)
-//        {
-//            SizeModel size = db.Sizes.Find(id);
-//            db.Sizes.Remove(size);
-//            db.SaveChanges();
-//            return RedirectToAction("Index");
-//        }
+            return RedirectToAction("Index");
+        }
 
-//        protected override void Dispose(bool disposing)
-//        {
-//            if (disposing)
-//            {
-//                db.Dispose();
-//            }
-//            base.Dispose(disposing);
-//        }
-//    }
-//}
+        // GET: Sizes/Edit/5
+        [HttpGet]
+        public async Task<ActionResult> Edit(int Id)
+        {
+            var sizeDTO = await _sizeService.GetSizeAsync(Id);
+
+            if (sizeDTO == null)
+                return HttpNotFound();
+
+            return View(_automapper.Map<SizeCreateEditVM>(sizeDTO));
+        }
+
+        // POST: Sizes/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(SizeCreateEditVM model)
+        {
+            var sizeDTO = _automapper.Map<SizeDTO>(model);
+
+            if (await _sizeService.EditAsync(sizeDTO) == false)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Edit error");
+
+            return RedirectToAction("Index");
+        }
+
+        // GET: Sizes/Delete/5
+        [HttpGet]
+        public async Task<ActionResult> Delete(int Id)
+        {
+            var sizeDTO = await _sizeService.GetSizeAsync(Id);
+
+            if (sizeDTO == null)
+                return HttpNotFound();
+
+            return View(_automapper.Map<SizeVM>(sizeDTO));
+        }
+
+        // POST: Sizes/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(int Id)
+        {
+            if (await _sizeService.DeleteAsync(Id) == false)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Edit error");
+
+            return RedirectToAction("Index");
+        }
+    }
+}

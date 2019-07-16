@@ -2,6 +2,7 @@
 using BLL.DTO;
 using EShop.Models;
 using EShop.Models.Products;
+using EShop.Models.Sizes;
 using EShop.Models.TradeMarks;
 
 namespace EShop.Mappers

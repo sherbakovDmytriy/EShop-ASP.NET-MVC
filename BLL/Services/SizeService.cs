@@ -1,5 +1,8 @@
-﻿using BLL.DTO;
+﻿using AutoMapper;
+using BLL.DTO;
 using BLL.Interfaces;
+using DAL;
+using DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,29 +13,59 @@ namespace BLL.Services
 {
     public class SizeService : ISizeService
     {
-        public Task<bool> CreateAsync(SizeDTO model)
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        private readonly IRepository<Size> _repository;
+
+        public SizeService(IUnitOfWork unitOfWork, IMapper automapper)
         {
-            throw new NotImplementedException();
+            _unitOfWork = unitOfWork;
+            _repository = _unitOfWork.GetRepository<Size>();
+            _mapper = automapper;
         }
 
-        public Task<bool> DeleteAsync(int Id)
+        #region Get
+
+        public async Task<IEnumerable<SizeDTO>> GetSizesAsync(int? limit = null)
         {
-            throw new NotImplementedException();
+            var sizes = await _repository.Get(limit);
+            return _mapper.Map<IEnumerable<SizeDTO>>(sizes);
         }
 
-        public Task<bool> EditAsync(SizeDTO model)
+        public async Task<SizeDTO> GetSizeAsync(int Id)
         {
-            throw new NotImplementedException();
+            var size = await _repository.FindById(Id);
+            return _mapper.Map<SizeDTO>(size);
         }
 
-        public Task<SizeDTO> GetTradeMarkAsync(int Id)
+        #endregion
+
+        #region Create Edit Delete
+
+        public async Task<bool> CreateAsync(SizeDTO model)
         {
-            throw new NotImplementedException();
+            var size = _mapper.Map<Size>(model);
+            _repository.Add(size);
+
+            return await _repository.SaveAsync() > 0 ? true : false;
         }
 
-        public Task<IEnumerable<SizeDTO>> GetTradeMarksAsync(int? limit = null)
+        public async Task<bool> EditAsync(SizeDTO model)
         {
-            throw new NotImplementedException();
+            var size = _mapper.Map<Size>(model);
+            _repository.Edit(size);
+
+            return await _repository.SaveAsync() > 0 ? true : false;
         }
+
+        public async Task<bool> DeleteAsync(int Id)
+        {
+            var size = await _repository.FindById(Id);
+            _repository.Remove(size);
+
+            return await _repository.SaveAsync() > 0 ? true : false;
+        }
+
+        #endregion
     }
 }

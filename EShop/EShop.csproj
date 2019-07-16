@@ -175,7 +175,8 @@
     <Compile Include="Mappers\EShopMappingsProfile.cs" />
     <Compile Include="Models\Products\ProductVM.cs" />
     <Compile Include="Models\Products\LandingVM.cs" />
-    <Compile Include="Models\SizeVM.cs" />
+    <Compile Include="Models\Sizes\SizeCreateEditVM.cs" />
+    <Compile Include="Models\Sizes\SizeVM.cs" />
     <Compile Include="Models\SubtypeVM.cs" />
     <Compile Include="Models\TradeMarks\TradeMarkCreateEditVM.cs" />
     <Compile Include="Models\TradeMarks\TradeMarkVM.cs" />

@@ -11,8 +11,8 @@ namespace BLL.Interfaces
     {
         #region Get
 
-        Task<IEnumerable<SizeDTO>> GetTradeMarksAsync(int? limit = null);
-        Task<SizeDTO> GetTradeMarkAsync(int Id);
+        Task<IEnumerable<SizeDTO>> GetSizesAsync(int? limit = null);
+        Task<SizeDTO> GetSizeAsync(int Id);
 
         #endregion
 

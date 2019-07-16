@@ -1,4 +1,4 @@
-﻿@model EShop.Models.SizeVM
+﻿@model EShop.Models.Sizes.SizeVM
 
 @{
     ViewBag.Title = "Delete";
@@ -21,7 +21,8 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">

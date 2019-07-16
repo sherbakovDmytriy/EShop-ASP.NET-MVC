@@ -1,7 +1,4 @@
-﻿using EShop.Models.Products;
-using System.Collections.Generic;
-
-namespace EShop.Models
+﻿namespace EShop.Models.Sizes
 {
     public class SizeVM
     {
