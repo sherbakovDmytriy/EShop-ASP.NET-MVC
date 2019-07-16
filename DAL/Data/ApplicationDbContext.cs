@@ -15,13 +15,6 @@ namespace DAL.Data
             return new ApplicationDbContext();
         }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Product>()
-                .HasMany<Size>(s => s.Sizes)
-                .WithMany(c => c.Products);
-        }
-
         public DbSet<Product> Products { get; set; }
         public DbSet<Size> Sizes { get; set; }
         public DbSet<TradeMark> TradeMarks { get; set; }

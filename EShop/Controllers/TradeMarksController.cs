@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using BLL.DTO;
 using BLL.Interfaces;
-using EShop.Models;
-using EShop.Models.Products;
 using EShop.Models.TradeMarks;
 using System.Collections.Generic;
 using System.Net;
@@ -23,6 +21,7 @@ namespace EShop.Controllers
         }
 
         // GET: TradeMarks
+        [HttpGet]
         public async Task<ActionResult> Index()
         {
             var tradeMarksDTO = await _tradeMarkService.GetTradeMarksAsync(10);
@@ -31,6 +30,7 @@ namespace EShop.Controllers
         }
 
         // GET: TradeMarks/Details/5
+        [HttpGet]
         public async Task<ActionResult> Details(int Id)
         {
             var tradeMarkDTO = await _tradeMarkService.GetTradeMarkAsync(Id);
@@ -42,6 +42,7 @@ namespace EShop.Controllers
         }
 
         // GET: TradeMarks/Create
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
@@ -61,21 +62,18 @@ namespace EShop.Controllers
         }
 
         // GET: TradeMarks/Edit/5
+        [HttpGet]
         public async Task<ActionResult> Edit(int Id)
         {
             var tradeMarkDTO = await _tradeMarkService.GetTradeMarkAsync(Id);
 
             if (tradeMarkDTO == null)
-            {
                 return HttpNotFound();
-            }
 
             return View(_automapper.Map<TradeMarkCreateEditVM>(tradeMarkDTO));
         }
 
         // POST: TradeMarks/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(TradeMarkCreateEditVM model)
@@ -89,6 +87,7 @@ namespace EShop.Controllers
         }
 
         // GET: TradeMarks/Delete/5
+        [HttpGet]
         public async Task<ActionResult> Delete(int Id)
         {
             var tradeMarkDTO = await _tradeMarkService.GetTradeMarkAsync(Id);

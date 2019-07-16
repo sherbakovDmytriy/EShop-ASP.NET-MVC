@@ -40,8 +40,6 @@ namespace BLL.Services
 
         #endregion
 
-
-
         #region Create Edit Delete
 
         public async Task<bool> CreateAsync(TradeMarkDTO model)

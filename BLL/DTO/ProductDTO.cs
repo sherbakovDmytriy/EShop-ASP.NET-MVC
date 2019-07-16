@@ -28,12 +28,7 @@ namespace BLL.DTO
         public int? TradeMarkId { get; set; }
         public TradeMarkDTO TradeMark { get; set; }
 
-        public virtual ICollection<SizeDTO> Sizes { get; set; }
-
-        public ProductDTO()
-        {
-            Sizes = new List<SizeDTO>();
-        }
+        public virtual List<SizeDTO> Sizes { get; set; }
 
         public string GetSizesNames()
         {

@@ -9,11 +9,6 @@ namespace DAL.Models
         
         public string Name { get; set; }
 
-        public ICollection<Subtype> Subtypes { get; set; }
-
-        public Type()
-        {
-            Subtypes = new List<Subtype>();
-        }
+        public List<Subtype> Subtypes { get; set; }
     }
 }

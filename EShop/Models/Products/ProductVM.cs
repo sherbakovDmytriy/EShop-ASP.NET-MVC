@@ -1,4 +1,5 @@
-﻿using EShop.Models.TradeMarks;
+﻿using EShop.Models.Sizes;
+using EShop.Models.TradeMarks;
 using System.Collections.Generic;
 
 namespace EShop.Models.Products
@@ -28,6 +29,6 @@ namespace EShop.Models.Products
         public int? TradeMarkId { get; set; }
         public TradeMarkVM TradeMark { get; set; }
 
-        public IEnumerable<SizeVM> Sizes { get; set; }
+        public List<SizeVM> Sizes { get; set; }
     }
 }

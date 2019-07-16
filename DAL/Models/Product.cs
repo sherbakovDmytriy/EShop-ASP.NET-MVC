@@ -28,12 +28,7 @@ namespace DAL.Models
         public int? TradeMarkId { get; set; }
         public TradeMark TradeMark { get; set; }
 
-        public virtual ICollection<Size> Sizes { get; set; }
-
-        public Product()
-        {
-            Sizes = new List<Size>();
-        }
+        public virtual List<Size> Sizes { get; set; }
 
         public string GetSizesNames()
         {

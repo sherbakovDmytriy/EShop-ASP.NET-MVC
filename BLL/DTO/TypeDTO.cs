@@ -9,11 +9,6 @@ namespace BLL.DTO
         
         public string Name { get; set; }
 
-        public ICollection<SubtypeDTO> Subtypes { get; set; }
-
-        public TypeDTO()
-        {
-            Subtypes = new List<SubtypeDTO>();
-        }
+        public List<SubtypeDTO> Subtypes { get; set; }
     }
 }
