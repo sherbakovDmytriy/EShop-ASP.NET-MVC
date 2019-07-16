@@ -13,6 +13,7 @@ namespace BLL.DI
             builder.RegisterType<ProductService>().As<IProductService>();
             builder.RegisterType<TradeMarkService>().As<ITradeMarkService>();
             builder.RegisterType<SizeService>().As<ISizeService>();
+            builder.RegisterType<TypeService>().As<ITypeService>();
         }
     }
 }

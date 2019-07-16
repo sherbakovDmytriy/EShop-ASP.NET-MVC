@@ -1,5 +1,6 @@
 ﻿using EShop.Models.Sizes;
 using EShop.Models.TradeMarks;
+using EShop.Models.Types;
 using System.Collections.Generic;
 
 namespace EShop.Models.Products
@@ -21,6 +22,7 @@ namespace EShop.Models.Products
         public string PictureType { get; set; }
 
         public int? TypeId { get; set; }
+
         public TypeVM Type { get; set; }
 
         public int? SubtypeId { get; set; }

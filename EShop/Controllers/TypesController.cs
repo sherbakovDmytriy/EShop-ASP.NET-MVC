@@ -1,129 +1,118 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Data;
-//using System.Data.Entity;
-//using System.Linq;
-//using System.Net;
-//using System.Web;
-//using System.Web.Mvc;
-//using EShop.Data;
-//using EShop.Models;
-//using TypeModel = EShop.Models.TypeModel;
+﻿using AutoMapper;
+using BLL.DTO;
+using BLL.Interfaces;
+using EShop.Models.Types;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
-//namespace EShop.Controllers
-//{
-//    public class TypesController : Controller
-//    {
-//        private ApplicationDbContext db = new ApplicationDbContext();
+namespace EShop.Controllers
+{
+    public class TypesController : Controller
+    {
+        private readonly ITypeService _typeService;
+        private readonly IMapper _automapper;
 
-//        // GET: Types
-//        public ActionResult Index()
-//        {
-//            return View(db.Types.ToList());
-//        }
+        public TypesController(ITypeService typeService, IMapper automapper)
+        {
+            _typeService = typeService;
+            _automapper = automapper;
+        }
 
-//        // GET: Types/Details/5
-//        public ActionResult Details(int? id)
-//        {
-//            if (id == null)
-//            {
-//                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-//            }
-//            TypeModel type = db.Types.Find(id);
-//            if (type == null)
-//            {
-//                return HttpNotFound();
-//            }
-//            return View(type);
-//        }
+        // GET: TradeMarks
+        [HttpGet]
+        public async Task<ActionResult> Index()
+        {
+            var typesDTO = await _typeService.GetTypesAsync(10);
+            var types = _automapper.Map<IEnumerable<TypeVM>>(typesDTO);
+            return View(types);
+        }
 
-//        // GET: Types/Create
-//        public ActionResult Create()
-//        {
-//            return View();
-//        }
+        // GET: TradeMarks/Details/5
+        [HttpGet]
+        public async Task<ActionResult> Details(int Id)
+        {
+            var typeDTO = await _typeService.GetTypeAsync(Id);
 
-//        // POST: Types/Create
-//        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-//        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-//        [HttpPost]
-//        [ValidateAntiForgeryToken]
-//        public ActionResult Create([Bind(Include = "Id,Name")] TypeModel type)
-//        {
-//            if (ModelState.IsValid)
-//            {
-//                db.Types.Add(type);
-//                db.SaveChanges();
-//                return RedirectToAction("Index");
-//            }
+            if (typeDTO == null)
+                return HttpNotFound();
 
-//            return View(type);
-//        }
+            return View(_automapper.Map<TypeVM>(typeDTO));
+        }
 
-//        // GET: Types/Edit/5
-//        public ActionResult Edit(int? id)
-//        {
-//            if (id == null)
-//            {
-//                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-//            }
-//            TypeModel type = db.Types.Find(id);
-//            if (type == null)
-//            {
-//                return HttpNotFound();
-//            }
-//            return View(type);
-//        }
+        // GET: TradeMarks/Create
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
 
-//        // POST: Types/Edit/5
-//        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-//        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-//        [HttpPost]
-//        [ValidateAntiForgeryToken]
-//        public ActionResult Edit([Bind(Include = "Id,Name")] TypeModel type)
-//        {
-//            if (ModelState.IsValid)
-//            {
-//                db.Entry(type).State = EntityState.Modified;
-//                db.SaveChanges();
-//                return RedirectToAction("Index");
-//            }
-//            return View(type);
-//        }
+        // POST: TradeMarks/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(TypeCreateEditVM model)
+        {
+            var typeDTO = _automapper.Map<TypeDTO>(model);
 
-//        // GET: Types/Delete/5
-//        public ActionResult Delete(int? id)
-//        {
-//            if (id == null)
-//            {
-//                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-//            }
-//            TypeModel type = db.Types.Find(id);
-//            if (type == null)
-//            {
-//                return HttpNotFound();
-//            }
-//            return View(type);
-//        }
+            if (await _typeService.CreateAsync(typeDTO) == false)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Create error");
 
-//        // POST: Types/Delete/5
-//        [HttpPost, ActionName("Delete")]
-//        [ValidateAntiForgeryToken]
-//        public ActionResult DeleteConfirmed(int id)
-//        {
-//            TypeModel type = db.Types.Find(id);
-//            db.Types.Remove(type);
-//            db.SaveChanges();
-//            return RedirectToAction("Index");
-//        }
+            return RedirectToAction("Index");
+        }
 
-//        protected override void Dispose(bool disposing)
-//        {
-//            if (disposing)
-//            {
-//                db.Dispose();
-//            }
-//            base.Dispose(disposing);
-//        }
-//    }
-//}
+        // GET: TradeMarks/Edit/5
+        [HttpGet]
+        public async Task<ActionResult> Edit(int Id)
+        {
+            var typeDTO = await _typeService.GetTypeAsync(Id);
+
+            if (typeDTO == null)
+                return HttpNotFound();
+
+            return View(_automapper.Map<TypeCreateEditVM>(typeDTO));
+        }
+
+        // POST: TradeMarks/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(TypeCreateEditVM model)
+        {
+            var typeDTO = _automapper.Map<TypeDTO>(model);
+
+            if (await _typeService.EditAsync(typeDTO) == false)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Edit error");
+
+            return RedirectToAction("Index");
+        }
+
+        // GET: TradeMarks/Delete/5
+        [HttpGet]
+        public async Task<ActionResult> Delete(int Id)
+        {
+            var typeDTO = await _typeService.GetTypeAsync(Id);
+
+            if (typeDTO == null)
+                return HttpNotFound();
+
+            return View(_automapper.Map<TypeVM>(typeDTO));
+        }
+
+        // POST: TradeMarks/Delete/5
+        [HttpPost]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(int Id)
+        {
+            var typeDTO = await _typeService.GetTypeWithSubtypesAsync(Id);
+
+            if(typeDTO.Subtypes.Count > 0)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Нельзя удалить тип у которого не 0 подтипов");
+
+            if (await _typeService.DeleteAsync(Id) == false)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Edit error");
+
+            return RedirectToAction("Index");
+        }
+    }
+}

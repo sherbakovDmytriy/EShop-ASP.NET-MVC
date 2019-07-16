@@ -180,7 +180,8 @@
     <Compile Include="Models\SubtypeVM.cs" />
     <Compile Include="Models\TradeMarks\TradeMarkCreateEditVM.cs" />
     <Compile Include="Models\TradeMarks\TradeMarkVM.cs" />
-    <Compile Include="Models\TypeVM.cs" />
+    <Compile Include="Models\Types\TypeCreateEditVM.cs" />
+    <Compile Include="Models\Types\TypeVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

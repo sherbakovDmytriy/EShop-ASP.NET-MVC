@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace EShop.Models
+namespace EShop.Models.Types
 {
     public class TypeVM
     {

@@ -1,4 +1,6 @@
-﻿namespace EShop.Models.Products
+﻿using EShop.Models.Types;
+
+namespace EShop.Models.Products
 {
     public class LandingVM
     {

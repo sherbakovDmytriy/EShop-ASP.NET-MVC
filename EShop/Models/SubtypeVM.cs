@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EShop.Models.Types;
+using System.ComponentModel.DataAnnotations;
 
 namespace EShop.Models
 {

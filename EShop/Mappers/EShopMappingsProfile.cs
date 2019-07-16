@@ -4,6 +4,7 @@ using EShop.Models;
 using EShop.Models.Products;
 using EShop.Models.Sizes;
 using EShop.Models.TradeMarks;
+using EShop.Models.Types;
 
 namespace EShop.Mappers
 {
@@ -15,10 +16,12 @@ namespace EShop.Mappers
             CreateMap<ProductDTO, LandingVM>().ReverseMap();
 
             CreateMap<TypeDTO, TypeVM>().ReverseMap();
+            CreateMap<TypeDTO, TypeCreateEditVM>().ReverseMap();
 
             CreateMap<SubtypeDTO, SubtypeVM>().ReverseMap();
 
             CreateMap<SizeDTO, SizeVM>().ReverseMap();
+            CreateMap<SizeDTO, SizeCreateEditVM>().ReverseMap();
 
             CreateMap<TradeMarkDTO, TradeMarkVM>().ReverseMap();
             CreateMap<TradeMarkDTO, TradeMarkCreateEditVM>().ReverseMap();
