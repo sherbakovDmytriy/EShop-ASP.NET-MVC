@@ -177,7 +177,8 @@
     <Compile Include="Models\Products\LandingVM.cs" />
     <Compile Include="Models\Sizes\SizeCreateEditVM.cs" />
     <Compile Include="Models\Sizes\SizeVM.cs" />
-    <Compile Include="Models\SubtypeVM.cs" />
+    <Compile Include="Models\Subtypes\SubtypeCreateEditVM.cs" />
+    <Compile Include="Models\Subtypes\SubtypeVM.cs" />
     <Compile Include="Models\TradeMarks\TradeMarkCreateEditVM.cs" />
     <Compile Include="Models\TradeMarks\TradeMarkVM.cs" />
     <Compile Include="Models\Types\TypeCreateEditVM.cs" />

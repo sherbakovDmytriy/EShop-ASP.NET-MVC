@@ -10,10 +10,16 @@ namespace BLL.DI
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterModule<DALDIModule>();
+
             builder.RegisterType<ProductService>().As<IProductService>();
+
             builder.RegisterType<TradeMarkService>().As<ITradeMarkService>();
+
             builder.RegisterType<SizeService>().As<ISizeService>();
+
             builder.RegisterType<TypeService>().As<ITypeService>();
+
+            builder.RegisterType<SubtypeService>().As<ISubtypeService>();
         }
     }
 }

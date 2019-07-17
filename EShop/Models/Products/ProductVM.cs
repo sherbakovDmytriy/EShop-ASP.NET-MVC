@@ -1,4 +1,5 @@
 ﻿using EShop.Models.Sizes;
+using EShop.Models.Subtypes;
 using EShop.Models.TradeMarks;
 using EShop.Models.Types;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿@model EShop.Models.SubtypeVM
+﻿@model EShop.Models.Subtypes.SubtypeVM
 
 @{
     ViewBag.Title = "Delete";
@@ -12,11 +12,11 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.TypeModel.Name)
+            @Html.DisplayNameFor(model => model.Type.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TypeModel.Name)
+            @Html.DisplayFor(model => model.Type.Name)
         </dd>
 
         <dt>

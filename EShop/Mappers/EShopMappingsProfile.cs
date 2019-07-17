@@ -3,6 +3,7 @@ using BLL.DTO;
 using EShop.Models;
 using EShop.Models.Products;
 using EShop.Models.Sizes;
+using EShop.Models.Subtypes;
 using EShop.Models.TradeMarks;
 using EShop.Models.Types;
 
@@ -19,6 +20,7 @@ namespace EShop.Mappers
             CreateMap<TypeDTO, TypeCreateEditVM>().ReverseMap();
 
             CreateMap<SubtypeDTO, SubtypeVM>().ReverseMap();
+            CreateMap<SubtypeDTO, SubtypeCreateEditVM>().ReverseMap();
 
             CreateMap<SizeDTO, SizeVM>().ReverseMap();
             CreateMap<SizeDTO, SizeCreateEditVM>().ReverseMap();

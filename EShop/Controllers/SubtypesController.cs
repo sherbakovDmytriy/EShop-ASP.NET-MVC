@@ -1,133 +1,121 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Data;
-//using System.Data.Entity;
-//using System.Linq;
-//using System.Net;
-//using System.Web;
-//using System.Web.Mvc;
-//using EShop.Data;
-//using EShop.Models;
+﻿using AutoMapper;
+using BLL.DTO;
+using BLL.Interfaces;
+using EShop.Models.Subtypes;
+using EShop.Models.Types;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web.Mvc;
 
-//namespace EShop.Controllers
-//{
-//    public class SubtypesController : Controller
-//    {
-//        private ApplicationDbContext db = new ApplicationDbContext();
+namespace EShop.Controllers
+{
+    public class SubtypesController : Controller
+    {
+        private readonly ISubtypeService _subtypeService;
+        private readonly ITypeService _typeService;
+        private readonly IMapper _automapper;
 
-//        // GET: Subtypes
-//        public ActionResult Index()
-//        {
-//            var subtypes = db.Subtypes.Include(s => s.TypeModel);
-//            return View(subtypes.ToList());
-//        }
+        public SubtypesController(ISubtypeService subtypeService, ITypeService typeService, IMapper automapper)
+        {
+            _subtypeService = subtypeService;
+            _typeService = typeService;
+            _automapper = automapper;
+        }
 
-//        // GET: Subtypes/Details/5
-//        public ActionResult Details(int? id)
-//        {
-//            if (id == null)
-//            {
-//                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-//            }
-//            SubtypeModel subtype = db.Subtypes.Include(s => s.TypeModel).SingleOrDefault(s => s.Id == id);
-//            if (subtype == null)
-//            {
-//                return HttpNotFound();
-//            }
-//            return View(subtype);
-//        }
+        // GET: TradeMarks
+        [HttpGet]
+        public async Task<ActionResult> Index()
+        {
+            var subtypesDTO = await _subtypeService.GetSubtypesAsync(10);
+            var subtypes = _automapper.Map<IEnumerable<SubtypeVM>>(subtypesDTO);
+            return View(subtypes);
+        }
 
-//        // GET: Subtypes/Create
-//        public ActionResult Create()
-//        {
-//            ViewBag.TypeId = new SelectList(db.Types, "Id", "Name");
-//            return View();
-//        }
+        // GET: TradeMarks/Details/5
+        [HttpGet]
+        public async Task<ActionResult> Details(int Id)
+        {
+            var subtypesDTO = await _subtypeService.GetSubtypeAsync(Id);
 
-//        // POST: Subtypes/Create
-//        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-//        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-//        [HttpPost]
-//        [ValidateAntiForgeryToken]
-//        public ActionResult Create([Bind(Include = "Id,Name,TypeId")] SubtypeModel subtype)
-//        {
-//            if (ModelState.IsValid)
-//            {
-//                db.Subtypes.Add(subtype);
-//                db.SaveChanges();
-//                return RedirectToAction("Index");
-//            }
+            if (subtypesDTO == null)
+                return HttpNotFound();
 
-//            ViewBag.TypeId = new SelectList(db.Types, "Id", "Name", subtype.TypeId);
-//            return View(subtype);
-//        }
+            return View(_automapper.Map<SubtypeVM>(subtypesDTO));
+        }
 
-//        // GET: Subtypes/Edit/5
-//        public ActionResult Edit(int? id)
-//        {
-//            if (id == null)
-//            {
-//                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-//            }
-//            SubtypeModel subtype = db.Subtypes.Find(id);
-//            if (subtype == null)
-//            {
-//                return HttpNotFound();
-//            }
-//            ViewBag.TypeId = new SelectList(db.Types, "Id", "Name", subtype.TypeId);
-//            return View(subtype);
-//        }
+        // GET: TradeMarks/Create
+        [HttpGet]
+        public async Task<ActionResult> Create()
+        {
+            var typesDTO = await _typeService.GetTypesAsync();
+            ViewBag.types = _automapper.Map<IEnumerable<TypeVM>>(typesDTO);
+            return View();
+        }
 
-//        // POST: Subtypes/Edit/5
-//        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-//        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-//        [HttpPost]
-//        [ValidateAntiForgeryToken]
-//        public ActionResult Edit([Bind(Include = "Id,Name,TypeId")] SubtypeModel subtype)
-//        {
-//            if (ModelState.IsValid)
-//            {
-//                db.Entry(subtype).State = EntityState.Modified;
-//                db.SaveChanges();
-//                return RedirectToAction("Index");
-//            }
-//            ViewBag.TypeId = new SelectList(db.Types, "Id", "Name", subtype.TypeId);
-//            return View(subtype);
-//        }
+        // POST: TradeMarks/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(SubtypeCreateEditVM model)
+        {
+            var subtypesDTO = _automapper.Map<SubtypeDTO>(model);
 
-//        // GET: Subtypes/Delete/5
-//        public ActionResult Delete(int? id)
-//        {
-//            if (id == null)
-//            {
-//                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-//            }
-//            SubtypeModel subtype = db.Subtypes.Find(id);
-//            if (subtype == null)
-//            {
-//                return HttpNotFound();
-//            }
-//            return View(subtype);
-//        }
+            if (await _subtypeService.CreateAsync(subtypesDTO) == false)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Create error");
 
-//        // POST: Subtypes/Delete/5
-//        [HttpPost, ActionName("Delete")]
-//        [ValidateAntiForgeryToken]
-//        public ActionResult DeleteConfirmed(int id)
-//        {
-//            SubtypeModel subtype = db.Subtypes.Find(id);
-//            db.Subtypes.Remove(subtype);
-//            db.SaveChanges();
-//            return RedirectToAction("Index");
-//        }
+            return RedirectToAction("Index");
+        }
 
-//        protected override void Dispose(bool disposing)
-//        {
-//            if (disposing)
-//            {
-//                db.Dispose();
-//            }
-//            base.Dispose(disposing);
-//        }
-//    }
-//}
+        // GET: TradeMarks/Edit/5
+        [HttpGet]
+        public async Task<ActionResult> Edit(int Id)
+        {
+            var subtypesDTO = await _subtypeService.GetSubtypeAsync(Id);
+
+            if (subtypesDTO == null)
+                return HttpNotFound();
+
+            var typesDTO = await _typeService.GetTypesAsync();
+            ViewBag.types = _automapper.Map<IEnumerable<TypeVM>>(typesDTO);
+
+            return View(_automapper.Map<SubtypeCreateEditVM>(subtypesDTO));
+        }
+
+        // POST: TradeMarks/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(SubtypeCreateEditVM model)
+        {
+            var subtypesDTO = _automapper.Map<SubtypeDTO>(model);
+
+            if (await _subtypeService.EditAsync(subtypesDTO) == false)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Edit error");
+
+            return RedirectToAction("Index");
+        }
+
+        // GET: TradeMarks/Delete/5
+        [HttpGet]
+        public async Task<ActionResult> Delete(int Id)
+        {
+            var subtypesDTO = await _subtypeService.GetSubtypeAsync(Id);
+
+            if (subtypesDTO == null)
+                return HttpNotFound();
+
+            return View(_automapper.Map<SubtypeVM>(subtypesDTO));
+        }
+
+        // POST: TradeMarks/Delete/5
+        [HttpPost]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(int Id)
+        {
+            if (await _subtypeService.DeleteAsync(Id) == false)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Edit error");
+
+            return RedirectToAction("Index");
+        }
+    }
+}
