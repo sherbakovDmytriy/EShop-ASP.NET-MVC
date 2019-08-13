@@ -23,7 +23,7 @@ namespace EShop.Controllers
             _automapper = automapper;
         }
 
-        // GET: TradeMarks
+        // GET: Subtypes
         [HttpGet]
         public async Task<ActionResult> Index()
         {
@@ -32,7 +32,7 @@ namespace EShop.Controllers
             return View(subtypes);
         }
 
-        // GET: TradeMarks/Details/5
+        // GET: Subtypes/Details/5
         [HttpGet]
         public async Task<ActionResult> Details(int Id)
         {
@@ -44,7 +44,7 @@ namespace EShop.Controllers
             return View(_automapper.Map<SubtypeVM>(subtypesDTO));
         }
 
-        // GET: TradeMarks/Create
+        // GET: Subtypes/Create
         [HttpGet]
         public async Task<ActionResult> Create()
         {
@@ -53,7 +53,7 @@ namespace EShop.Controllers
             return View();
         }
 
-        // POST: TradeMarks/Create
+        // POST: Subtypes/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(SubtypeCreateEditVM model)
@@ -66,7 +66,7 @@ namespace EShop.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: TradeMarks/Edit/5
+        // GET: Subtypes/Edit/5
         [HttpGet]
         public async Task<ActionResult> Edit(int Id)
         {
@@ -81,7 +81,7 @@ namespace EShop.Controllers
             return View(_automapper.Map<SubtypeCreateEditVM>(subtypesDTO));
         }
 
-        // POST: TradeMarks/Edit/5
+        // POST: Subtypes/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(SubtypeCreateEditVM model)
@@ -94,7 +94,7 @@ namespace EShop.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: TradeMarks/Delete/5
+        // GET: Subtypes/Delete/5
         [HttpGet]
         public async Task<ActionResult> Delete(int Id)
         {
@@ -106,7 +106,7 @@ namespace EShop.Controllers
             return View(_automapper.Map<SubtypeVM>(subtypesDTO));
         }
 
-        // POST: TradeMarks/Delete/5
+        // POST: Subtypes/Delete/5
         [HttpPost]
         [ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -116,6 +116,15 @@ namespace EShop.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Edit error");
 
             return RedirectToAction("Index");
+        }
+
+        // POST: Subtypes/GetSubtypes/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<JsonResult> GetSubtypes(int typeId)
+        {
+            var subtypesDTO = await _subtypeService.GetByTypeAsync(typeId);
+            return Json(_automapper.Map<IEnumerable<SubtypeVM>>(subtypesDTO));
         }
     }
 }

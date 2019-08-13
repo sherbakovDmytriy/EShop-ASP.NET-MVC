@@ -10,6 +10,7 @@ namespace BLL.Interfaces
 
         Task<IEnumerable<SizeDTO>> GetSizesAsync(int? limit = null);
         Task<SizeDTO> GetSizeAsync(int Id);
+        Task<SizeDTO> GetSizeAsNoTrackingAsync(int Id);
 
         #endregion
 

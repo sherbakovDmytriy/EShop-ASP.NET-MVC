@@ -1,4 +1,4 @@
-﻿@model EShop.Models.Products.ProductVM
+﻿@model EShop.Models.Products.ProductCreateEditVM
 
 @{
     ViewBag.Title = "Create";
@@ -47,33 +47,48 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.TypeId, "TypeId", htmlAttributes: new { @class = "control-label col-md-2" })
+        <label class="control-label col-md-2" for="TypeId">Type</label>
         <div class="col-md-10">
-            @Html.DropDownList("TypeId", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.TypeId, "", new { @class = "text-danger" })
+            <select class="form-control valid" id="TypeId" name="TypeId" aria-invalid="false">
+                @foreach (var type in ViewBag.types)
+                {
+                    <option value="@type.Id">@type.Name</option>
+                }
+            </select>
+            <span class="field-validation-valid text-danger" data-valmsg-for="TypeId" data-valmsg-replace="true"></span>
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.SubtypeId, "SubtypeId", htmlAttributes: new { @class = "control-label col-md-2" })
+        <label class="control-label col-md-2" for="SubtypeId">Subtype</label>
         <div class="col-md-10">
-            @Html.DropDownList("SubtypeId", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.SubtypeId, "", new { @class = "text-danger" })
+            <select class="form-control valid" id="SubtypeId" name="SubtypeId" aria-invalid="false">
+                @foreach (var subtype in ViewBag.subtypes)
+                {
+                    <option value="@subtype.Id">@subtype.Name</option>
+                }
+            </select>
+            <span class="field-validation-valid text-danger" data-valmsg-for="SubtypeId" data-valmsg-replace="true"></span>
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.TradeMarkId, "TradeMarkId", htmlAttributes: new { @class = "control-label col-md-2" })
+        <label class="control-label col-md-2" for="TradeMarkId">TradeMark</label>
         <div class="col-md-10">
-            @Html.DropDownList("TradeMarkId", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.TradeMarkId, "", new { @class = "text-danger" })
+            <select class="form-control valid" id="TradeMarkId" name="TradeMarkId" aria-invalid="false">
+                @foreach (var tradeMark in ViewBag.tradeMarks)
+                {
+                    <option value="@tradeMark.Id">@tradeMark.Name</option>
+                }
+            </select>
+            <span class="field-validation-valid text-danger" data-valmsg-for="TradeMarkId" data-valmsg-replace="true"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <label class="control-label col-md-2" for="Sizes">SizeModels</label>
+        <label class="control-label col-md-2" for="Sizes">Sizes</label>
         <div class="col-md-10">
-            <select class="form-control valid" id="Sizes" name="SizeModels" aria-invalid="false" multiple>
+            <select class="form-control valid" id="Sizes" name="Sizes" aria-invalid="false" multiple>
                 @foreach (var size in ViewBag.Sizes)
                 {
                     <option value="@size.Id">@size.Name</option>
@@ -86,7 +101,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Image</label>
         <div class="editor-field">
-            <input type="file" name="uploadImage" required/>
+            <input type="file" name="upload" required/>
         </div>
     </div>
 
@@ -109,11 +124,30 @@
         $('#TypeId').change(function() {
             var id = $(this).val();
 
+            console.log("1");
+            var url = document.location.origin + "/Admin/Subtypes/GetSubtypes?typeId=" + id;
+            console.log(url);
+            var token = document.getElementsByName("__RequestVerificationToken")[0].value;
+            console.log(token);
+
             $.ajax({
                 type: "POST",
-                url: '@Url.Action("GetSubtypes")/' + id,
-                success: function(data) {
-                    $('#SubtypeId').replaceWith(data);
+                url: url,
+                data: {
+                    __RequestVerificationToken: token
+                },
+                success: function (data) {
+
+                    var options = [];
+                    data.forEach(function(element) {
+                        var option = document.createElement("option")
+                        option.value = element.Id;
+                        option.innerHTML = element.Name;
+                        options.push(option);
+                    });
+
+                    $("#SubtypeId").empty();
+                    $('#SubtypeId').append(options);
                 }
             });
         });

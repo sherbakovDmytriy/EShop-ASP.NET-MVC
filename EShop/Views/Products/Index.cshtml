@@ -12,13 +12,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.SubtypeModel.Name)
+            @Html.DisplayNameFor(model => model.Subtype.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TypeModel.Name)
+            @Html.DisplayNameFor(model => model.Type.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TradeMarkModel.Name)
+            @Html.DisplayNameFor(model => model.TradeMark.Name)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Sizes)
@@ -36,20 +36,20 @@
             @Html.DisplayNameFor(model => model.Description)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PictureName)
+            @Html.DisplayNameFor(model => model.Picture.Name)
         </th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.SubtypeModel.Name)
+            @Html.DisplayFor(modelItem => item.Subtype.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TypeModel.Name)
+            @Html.DisplayFor(modelItem => item.Type.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TradeMarkModel.Name)
+            @Html.DisplayFor(modelItem => item.TradeMark.Name)
         </td>
         <td>
             @foreach (var size in item.Sizes)
@@ -70,7 +70,7 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.Raw("<img style='width:80px; height:60px;' src=/Pictures/" + item.PictureName + " />")
+            @Html.Raw("<img style='width:80px; height:60px;' src=" + item.Picture.Path + " />")
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |

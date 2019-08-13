@@ -14,10 +14,9 @@ namespace BLL.DTO
         public float Price { get; set; }
 
         public string Description { get; set; }
-        
-        public string PictureName { get; set; }
 
-        public string PictureType { get; set; }
+        public int? PictureId { get; set; }
+        public PictureDTO Picture;
 
         public int? TypeId { get; set; }
         public TypeDTO Type { get; set; }
@@ -29,16 +28,5 @@ namespace BLL.DTO
         public TradeMarkDTO TradeMark { get; set; }
 
         public virtual List<SizeDTO> Sizes { get; set; }
-
-        public string GetSizesNames()
-        {
-            var res = "";
-            foreach (var size in Sizes)
-            {
-                res += size.Name + " ";
-            }
-
-            return res;
-        }
     }
 }

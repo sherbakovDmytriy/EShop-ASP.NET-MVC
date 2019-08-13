@@ -13,6 +13,7 @@ namespace BLL.Interfaces
 
         Task<IEnumerable<SubtypeDTO>> GetSubtypesAsync(int? limit = null);
         Task<SubtypeDTO> GetSubtypeAsync(int Id);
+        Task<IEnumerable<SubtypeDTO>> GetByTypeAsync(int typeId);
 
         #endregion
 

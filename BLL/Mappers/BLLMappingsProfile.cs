@@ -10,7 +10,8 @@ namespace BLL.Mappers
     {
         public BLLMappingsProfile()
         {
-            CreateMap<Product, ProductDTO>().ForMember(m => m.Sizes, n => n.MapFrom(l => l.Sizes.ToList().AsEnumerable())).ReverseMap();
+            CreateMap<Product, ProductDTO>().ReverseMap();
+            //CreateMap<Product, ProductDTO>().ForMember(m => m.Sizes, n => n.MapFrom(l => l.Sizes.ToList().AsEnumerable())).ReverseMap();
             CreateMap<Type, TypeDTO>().ReverseMap();
             CreateMap<Subtype, SubtypeDTO>().ReverseMap();
             CreateMap<Size, SizeDTO>().ReverseMap();

@@ -1,225 +1,280 @@
-﻿//using AutoMapper;
-//using BLL;
-//using System;
-//using System.Collections.Generic;
-//using System.Data;
-//using System.Data.Entity;
-//using System.Linq;
-//using System.Net;
-//using System.Web;
-//using System.Web.Mvc;
+﻿using AutoMapper;
+using BLL;
+using BLL.DTO;
+using BLL.Interfaces;
+using EShop.Models.Products;
+using EShop.Models.Sizes;
+using EShop.Models.Subtypes;
+using EShop.Models.TradeMarks;
+using EShop.Models.Types;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
-//namespace EShop.Controllers
-//{
-//    public class ProductsController : Controller
-//    {
-//        private readonly IProductService _productService;
-//        private readonly IMapper _automapper;
+namespace EShop.Controllers
+{
+    public class ProductsController : Controller
+    {
+        private readonly IProductService _productService;
+        private readonly ITypeService _typeService;
+        private readonly ISubtypeService _subtypeService;
+        private readonly ISizeService _sizeService;
+        private readonly ITradeMarkService _tradeMarkService;
+        private readonly IMapper _automapper;
 
-//        public ProductsController(IProductService productService, IMapper automapper)
-//        {
-//            _productService = productService;
-//            _automapper = automapper;
-//        }
+        public ProductsController
+        (
+            IProductService productService,
+            ITypeService typeService,
+            ISubtypeService subtypeService,
+            ISizeService sizeService,
+            ITradeMarkService tradeMarkService,
+            IMapper automapper
+        )
+        {
+            _productService = productService;
+            _typeService = typeService;
+            _subtypeService = subtypeService;
+            _sizeService = sizeService;
+            _tradeMarkService = tradeMarkService;
+            _automapper = automapper;
+        }
 
-//        // GET: Products
-//        public ActionResult Index()
-//        {
-//            //var products = db.Products.Include(p => p.Sizes)
-//            //    .Include(p => p.SubtypeModel)
-//            //    .Include(p => p.TradeMarkModel)
-//            //    .Include(p => p.TypeModel);
+        // GET: Products
+        public async Task<ActionResult> Index()
+        {
+            var productsDTO = await _productService.GetProducts(10);
+            var products = _automapper.Map<IEnumerable<ProductVM>>(productsDTO);
+            return View(products);
 
-//            //return View(products.ToList());
-//        }
+            //var products = db.Products.Include(p => p.Sizes)
+            //    .Include(p => p.SubtypeModel)
+            //    .Include(p => p.TradeMarkModel)
+            //    .Include(p => p.TypeModel);
 
-//        // GET: Products/Details/5
-//        public ActionResult Details(int? id)
-//        {
-//            //if (id == null)
-//            //{
-//            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-//            //}
+            //return View(products.ToList());
+        }
 
-//            //ProductModel product = db.Products.Where(p => p.Id == id)
-//            //    .Include(p => p.Sizes)
-//            //    .Include(p => p.TypeModel)
-//            //    .Include(p => p.SubtypeModel)
-//            //    .Include(p => p.TradeMarkModel)
-//            //    .FirstOrDefault();
+        // GET: Products/Details/5
+        public async Task<ActionResult> Details(int? id)
+        {
+            return null;
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
 
-//            //if (product == null)
-//            //{
-//            //    return HttpNotFound();
-//            //}
+            //ProductModel product = db.Products.Where(p => p.Id == id)
+            //    .Include(p => p.Sizes)
+            //    .Include(p => p.TypeModel)
+            //    .Include(p => p.SubtypeModel)
+            //    .Include(p => p.TradeMarkModel)
+            //    .FirstOrDefault();
 
-//            //return View(product);
-//        }
+            //if (product == null)
+            //{
+            //    return HttpNotFound();
+            //}
 
-//        // GET: Products/Create
-//        public ActionResult Create()
-//        {
-//            //ViewBag.TypeId = new SelectList(db.Types, "Id", "Name");
+            //return View(product);
+        }
 
-//            //var firstTypeID = db.Types.ToList().First().Id;
-//            //var subtypes = db.Subtypes.Where(s => s.TypeId == firstTypeID).ToList();
-//            //ViewBag.SubtypeId = new SelectList(subtypes, "Id", "Name");
+        // GET: Products/Create
+        public async Task<ActionResult> Create()
+        {
+            // Get Types
+            var typesDTO = await _typeService.GetTypesAsync();
+            var types = _automapper.Map<IEnumerable<TypeVM>>(typesDTO);
+            ViewBag.types = types;
 
-//            //ViewBag.TradeMarkId = new SelectList(db.TradeMarks, "Id", "Name");
-//            //ViewBag.Sizes = db.Sizes;
+            // Get Subtypes
+            var firstTypeID = types.FirstOrDefault().Id;
+            var subtypesDTO = await _subtypeService.GetByTypeAsync(firstTypeID);
+            ViewBag.subtypes = _automapper.Map<IEnumerable<SubtypeVM>>(subtypesDTO);
 
-//            //return View();
-//        }
+            // Get TradeMarks
+            var tradeMarksDTO = await _tradeMarkService.GetTradeMarksAsync();
+            ViewBag.tradeMarks = _automapper.Map<IEnumerable<TradeMarkVM>>(tradeMarksDTO);
 
-//        // POST: Products/Create
-//        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-//        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-//        [HttpPost]
-//        [ValidateAntiForgeryToken]
-//        public ActionResult Create([Bind(Include = "Id,Name,Materials,Price,Description,TypeId,SubtypeId,TradeMarkId")] ProductModel product, HttpPostedFileBase uploadImage, string[] sizes)
-//        {
-//            //if (ModelState.IsValid)
-//            //{
-//            //    string fileName = System.IO.Path.GetFileName(uploadImage.FileName);
-//            //    // сохраняем файл в папку Pictures в проекте
-//            //    uploadImage.SaveAs(Server.MapPath("~/Pictures/" + fileName));
+            // Get Sizes
+            var sizesDTO = await _sizeService.GetSizesAsync();
+            var sizes = _automapper.Map<IEnumerable<SizeVM>>(sizesDTO);
+            ViewBag.Sizes = sizes;
 
-//            //    product.PictureName = fileName;
-//            //    product.PictureType = uploadImage.ContentType;
+            return View();
+        }
 
-//            //    foreach (var sizeID in sizes)
-//            //    {
-//            //        product.Sizes.Add(db.Sizes.Find(Convert.ToInt32(sizeID)));
-//            //    }
+        // POST: Products/Create
+        [HttpPost]
+        public async Task<ActionResult> Create(ProductCreateEditVM model, HttpPostedFileBase upload, int[] sizes)
+        {
+            // сохраняем файл в папку Pictures в проекте
+            string fileName = System.IO.Path.GetFileName(upload.FileName);
+            upload.SaveAs(Server.MapPath("~/Content/Pictures/" + fileName));
 
-//            //    db.Products.Add(product);
-//            //    db.SaveChanges();
+            string domain = Request.Url.Scheme + Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
+            var filePath = domain + "/Content/Pictures/" + fileName;
 
-//            //    return RedirectToAction("Index");
-//            //}
+            model.Picture = new Models.PictureVM
+            {
+                Name = fileName,
+                Path = filePath
+            };
 
-//            //ViewBag.SubtypeId = new SelectList(db.Subtypes, "Id", "Name", product.SubtypeId);
-//            //ViewBag.TradeMarkId = new SelectList(db.TradeMarks, "Id", "Name", product.TradeMarkId);
-//            //ViewBag.TypeId = new SelectList(db.Types, "Id", "Name", product.TypeId);
+            var productDTO = _automapper.Map<ProductDTO>(model);
 
-//            //return View(product);
-//        }
+            if (!await _productService.CreateAsync(productDTO, sizes))
+                throw new Exception("Saving error");
 
-//        // GET: Products/Edit/5
-//        public ActionResult Edit(int? id)
-//        {
-//            //if (id == null)
-//            //{
-//            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-//            //}
+            return RedirectToAction("Index");
+        }
 
-//            //ProductModel product = db.Products.Where(p => p.Id == id)
-//            //    .Include(p => p.Sizes)
-//            //    .FirstOrDefault();
+        // GET: Products/Edit/5
+        public async Task<ActionResult> Edit(int id)
+        {
+            // Get current Product
+            var productDTO = await _productService.GetProduct(id);
+            var product = _automapper.Map<ProductCreateEditVM>(productDTO);
 
-//            //if (product == null)
-//            //{
-//            //    return HttpNotFound();
-//            //}
+            // Get Types
+            var typesDTO = await _typeService.GetTypesAsync();
+            var types = _automapper.Map<IEnumerable<TypeVM>>(typesDTO);
+            ViewBag.types = types;
 
-//            //ViewBag.SubtypeId = new SelectList(db.Subtypes, "Id", "Name", product.SubtypeId);
-//            //ViewBag.TradeMarkId = new SelectList(db.TradeMarks, "Id", "Name", product.TradeMarkId);
-//            //ViewBag.TypeId = new SelectList(db.Types, "Id", "Name", product.TypeId);
-//            //ViewBag.Sizes = db.Sizes;
+            // Get Subtypes
+            var firstTypeID = types.FirstOrDefault(t => t.Id == product.TypeId).Id;
+            var subtypesDTO = await _subtypeService.GetByTypeAsync(firstTypeID);
+            ViewBag.subtypes = _automapper.Map<IEnumerable<SubtypeVM>>(subtypesDTO);
 
-//            //return View(product);
-//        }
+            // Get TradeMarks
+            var tradeMarksDTO = await _tradeMarkService.GetTradeMarksAsync();
+            ViewBag.tradeMarks = _automapper.Map<IEnumerable<TradeMarkVM>>(tradeMarksDTO);
 
-//        // POST: Products/Edit/5
-//        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-//        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-//        [HttpPost]
-//        [ValidateAntiForgeryToken]
-//        public ActionResult Edit([Bind(Include = "Id,Name,Materials,Price,Description,TypeId,SubtypeId,TradeMarkId")] ProductModel product, HttpPostedFileBase uploadImage, string[] sizes)
-//        {
-//            //if (ModelState.IsValid)
-//            //{
-//            //    ProductModel curentProduct = db.Products.Where(p => p.Id == product.Id)
-//            //        .Include(p => p.Sizes)
-//            //        .FirstOrDefault();
+            // Get Sizes
+            var sizesDTO = await _sizeService.GetSizesAsync();
+            var sizes = _automapper.Map<IEnumerable<SizeVM>>(sizesDTO);
+            ViewBag.Sizes = sizes;
 
-//            //    curentProduct.Sizes = new List<SizeModel>();
-//            //    foreach (var sizeID in sizes)
-//            //    {
-//            //        curentProduct.Sizes.Add(db.Sizes.Find(Convert.ToInt32(sizeID)));
-//            //    }
+            return View(product);
+        }
 
-//            //    if (uploadImage != null)
-//            //    {
-//            //        string fileName = System.IO.Path.GetFileName(uploadImage.FileName);
-//            //        // сохраняем файл в папку Pictures в проекте
-//            //        uploadImage.SaveAs(Server.MapPath("~/Pictures/" + fileName));
+        // POST: Products/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(ProductCreateEditVM model, HttpPostedFileBase upload, int[] sizes)
+        {
+            // сохраняем файл в папку Pictures в проекте
+            string fileName = System.IO.Path.GetFileName(upload.FileName);
+            upload.SaveAs(Server.MapPath("~/Content/Pictures/" + fileName));
 
-//            //        product.PictureName = fileName;
-//            //        product.PictureType = uploadImage.ContentType;
+            string domain = Request.Url.Scheme + Uri.SchemeDelimiter + Request.Url.Host + (Request.Url.IsDefaultPort ? "" : ":" + Request.Url.Port);
+            var filePath = domain + "/Content/Pictures/" + fileName;
 
-//            //        db.Entry(product).State = EntityState.Modified;
-//            //    }
-//            //    else
-//            //    {
-//            //        product.PictureName = curentProduct.PictureName;
+            model.Picture = new Models.PictureVM
+            {
+                Name = fileName,
+                Path = filePath
+            };
 
-//            //        db.Entry(curentProduct).CurrentValues.SetValues(product);
-//            //        db.Entry(curentProduct).State = EntityState.Modified;
-//            //    }
+            var productDTO = _automapper.Map<ProductDTO>(model);
 
-//            //    db.SaveChanges();
-//            //    return RedirectToAction("Index");
-//            //}
+            if (!await _productService.CreateAsync(productDTO, sizes))
+                throw new Exception("Saving error");
 
-//            //ViewBag.SubtypeId = new SelectList(db.Subtypes, "Id", "Name", product.SubtypeId);
-//            //ViewBag.TradeMarkId = new SelectList(db.TradeMarks, "Id", "Name", product.TradeMarkId);
-//            //ViewBag.TypeId = new SelectList(db.Types, "Id", "Name", product.TypeId);
+            return RedirectToAction("Index");
+            //if (ModelState.IsValid)
+            //{
+            //    ProductModel curentProduct = db.Products.Where(p => p.Id == product.Id)
+            //        .Include(p => p.Sizes)
+            //        .FirstOrDefault();
 
-//            //return View(product);
-//        }
+            //    curentProduct.Sizes = new List<SizeModel>();
+            //    foreach (var sizeID in sizes)
+            //    {
+            //        curentProduct.Sizes.Add(db.Sizes.Find(Convert.ToInt32(sizeID)));
+            //    }
 
-//        // GET: Products/Delete/5
-//        public ActionResult Delete(int? id)
-//        {
-//            //if (id == null)
-//            //{
-//            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-//            //}
+            //    if (uploadImage != null)
+            //    {
+            //        string fileName = System.IO.Path.GetFileName(uploadImage.FileName);
+            //        // сохраняем файл в папку Pictures в проекте
+            //        uploadImage.SaveAs(Server.MapPath("~/Pictures/" + fileName));
 
-//            //ProductModel product = db.Products.Where(p => p.Id == id)
-//            //    .Include(p => p.Sizes)
-//            //    .Include(p => p.TypeModel)
-//            //    .Include(p => p.SubtypeModel)
-//            //    .Include(p => p.TradeMarkModel)
-//            //    .FirstOrDefault();
+            //        product.PictureName = fileName;
+            //        product.PictureType = uploadImage.ContentType;
 
-//            //if (product == null)
-//            //{
-//            //    return HttpNotFound();
-//            //}
+            //        db.Entry(product).State = EntityState.Modified;
+            //    }
+            //    else
+            //    {
+            //        product.PictureName = curentProduct.PictureName;
 
-//            //return View(product);
-//        }
+            //        db.Entry(curentProduct).CurrentValues.SetValues(product);
+            //        db.Entry(curentProduct).State = EntityState.Modified;
+            //    }
 
-//        // POST: Products/Delete/5
-//        [HttpPost, ActionName("Delete")]
-//        [ValidateAntiForgeryToken]
-//        public ActionResult DeleteConfirmed(int id)
-//        {
-//            //ProductModel product = db.Products.Find(id);
-//            //db.Products.Remove(product);
-//            //db.SaveChanges();
+            //    db.SaveChanges();
+            //    return RedirectToAction("Index");
+            //}
 
-//            //return RedirectToAction("Index");
-//        }
+            //ViewBag.SubtypeId = new SelectList(db.Subtypes, "Id", "Name", product.SubtypeId);
+            //ViewBag.TradeMarkId = new SelectList(db.TradeMarks, "Id", "Name", product.TradeMarkId);
+            //ViewBag.TypeId = new SelectList(db.Types, "Id", "Name", product.TypeId);
 
-//        [HttpPost]
-//        public ActionResult GetSubtypes(int id)
-//        {
-//            //var subtypes = db.Subtypes.Where(s => s.TypeId == id).ToList();
+            //return View(product);
+        }
 
-//            //return View(subtypes);
-//        }
-//    }
-//}
+        // GET: Products/Delete/5
+        public async Task<ActionResult> Delete(int? id)
+        {
+            return null;
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+
+            //ProductModel product = db.Products.Where(p => p.Id == id)
+            //    .Include(p => p.Sizes)
+            //    .Include(p => p.TypeModel)
+            //    .Include(p => p.SubtypeModel)
+            //    .Include(p => p.TradeMarkModel)
+            //    .FirstOrDefault();
+
+            //if (product == null)
+            //{
+            //    return HttpNotFound();
+            //}
+
+            //return View(product);
+        }
+
+        // POST: Products/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(int id)
+        {
+            return null;
+            //ProductModel product = db.Products.Find(id);
+            //db.Products.Remove(product);
+            //db.SaveChanges();
+
+            //return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GetSubtypes(int id)
+        {
+            var subtypes = await _subtypeService.GetByTypeAsync(id);
+            return null;
+            //var subtypes = db.Subtypes.Where(s => s.TypeId == id).ToList();
+
+            //return View(subtypes);
+        }
+    }
+}

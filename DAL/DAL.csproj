@@ -54,6 +54,7 @@
     <Compile Include="Data\ApplicationDbContext.cs" />
     <Compile Include="Data\DbInitializer.cs" />
     <Compile Include="DI\DALDIModule.cs" />
+    <Compile Include="Models\Picture.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Models\Product.cs" />

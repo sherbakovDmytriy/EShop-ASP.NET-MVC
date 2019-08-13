@@ -173,6 +173,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Mappers\EShopMappingsProfile.cs" />
+    <Compile Include="Models\PictureVM.cs" />
+    <Compile Include="Models\Products\ProductCreateEditVM.cs" />
     <Compile Include="Models\Products\ProductVM.cs" />
     <Compile Include="Models\Products\LandingVM.cs" />
     <Compile Include="Models\Sizes\SizeCreateEditVM.cs" />

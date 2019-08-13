@@ -18,12 +18,10 @@ namespace EShop.Models.Products
 
         public string Description { get; set; }
 
-        public string PictureName { get; set; }
-
-        public string PictureType { get; set; }
+        public int? PictureId { get; set; }
+        public PictureVM Picture;
 
         public int? TypeId { get; set; }
-
         public TypeVM Type { get; set; }
 
         public int? SubtypeId { get; set; }

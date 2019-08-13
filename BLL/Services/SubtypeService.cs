@@ -35,6 +35,12 @@ namespace BLL.Services
             return _mapper.Map<SubtypeDTO>(subtypes);
         }
 
+        public async Task<IEnumerable<SubtypeDTO>> GetByTypeAsync(int typeId)
+        {
+            var subtypes = await _repository.GetWhere(s => s.TypeId == typeId);
+            return _mapper.Map<IEnumerable<SubtypeDTO>>(subtypes);
+        }
+
         #endregion
 
         #region Create Edit Delete

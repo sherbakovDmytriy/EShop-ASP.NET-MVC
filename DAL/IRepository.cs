@@ -13,11 +13,12 @@ namespace DAL
         Task<IEnumerable<TEntity>> GetWithInclude(int? limit = null, params Expression<Func<TEntity, object>>[] includeProperties);
 
         Task<IEnumerable<TEntity>> GetWhere(Expression<Func<TEntity, bool>> predicate);
-        Task<IEnumerable<TEntity>> GetWhereWithInclude(Expression<Func<TEntity, bool>> predicate,
-            params Expression<Func<TEntity, object>>[] includeProperties);
+        Task<IEnumerable<TEntity>> GetAsNoTrackingWhere(Expression<Func<TEntity, bool>> predicate);
+        Task<IEnumerable<TEntity>> GetWhereWithInclude(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties);
 
         Task<TEntity> FindById(int id);
         Task<TEntity> FirstWithInclude(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includeProperties);
+        Task<TEntity> FirstAsNoTracking(Expression<Func<TEntity, bool>> predicate);
 
         #endregion
 

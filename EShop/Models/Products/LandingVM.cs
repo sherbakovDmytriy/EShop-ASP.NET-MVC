@@ -10,10 +10,8 @@ namespace EShop.Models.Products
 
         public float Price { get; set; }
 
-        public string PictureName { get; set; }
+        public PictureVM Picture;
 
-        public string PictureType { get; set; }
-        
         public TypeVM Type { get; set; }
     }
 }

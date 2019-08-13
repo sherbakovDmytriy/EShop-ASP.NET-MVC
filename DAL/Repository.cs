@@ -50,6 +50,11 @@ namespace DAL
             return await _dbSet.Where(predicate).ToListAsync();
         }
 
+        public async Task<IEnumerable<TEntity>> GetAsNoTrackingWhere(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await _dbSet.AsNoTracking().Where(predicate).ToListAsync();
+        }
+
         public async Task<IEnumerable<TEntity>> GetWhereWithInclude(Expression<Func<TEntity, bool>> predicate,
             params Expression<Func<TEntity, object>>[] includeProperties)
         {
@@ -67,6 +72,11 @@ namespace DAL
         {
             return await Include(includeProperties)
                 .FirstOrDefaultAsync(predicate);
+        }
+
+        public async Task<TEntity> FirstAsNoTracking(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await _dbSet.AsNoTracking().Where(predicate).FirstOrDefaultAsync();
         }
 
         #endregion

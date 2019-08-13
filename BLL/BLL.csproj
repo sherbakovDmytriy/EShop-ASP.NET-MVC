@@ -40,6 +40,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DI\BLLDIModule.cs" />
+    <Compile Include="DTO\PictureDTO.cs" />
     <Compile Include="Interfaces\IProductService.cs" />
     <Compile Include="Interfaces\ISizeService.cs" />
     <Compile Include="Interfaces\ISubtypeService.cs" />

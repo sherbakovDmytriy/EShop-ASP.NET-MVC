@@ -1,9 +1,12 @@
-﻿using System;
+﻿using EShop.Models.Sizes;
+using EShop.Models.Subtypes;
+using EShop.Models.TradeMarks;
+using EShop.Models.Types;
 using System.Collections.Generic;
 
-namespace DAL.Models
+namespace EShop.Models.Products
 {
-    public class Product
+    public class ProductCreateEditVM
     {
         public int Id { get; set; }
 
@@ -16,22 +19,17 @@ namespace DAL.Models
         public string Description { get; set; }
 
         public int? PictureId { get; set; }
-        public Picture Picture { get; set; }
+        public PictureVM Picture;
 
         public int? TypeId { get; set; }
-        public Type Type { get; set; }
+        public TypeVM Type { get; set; }
 
         public int? SubtypeId { get; set; }
-        public Subtype Subtype { get; set; }
+        public SubtypeVM Subtype { get; set; }
 
         public int? TradeMarkId { get; set; }
-        public TradeMark TradeMark { get; set; }
+        public TradeMarkVM TradeMark { get; set; }
 
-        public virtual ICollection<Size> Sizes { get; set; }
-
-        public Product()
-        {
-            Sizes = new List<Size>();
-        }
+        public List<SizeVM> Sizes { get; set; }
     }
 }

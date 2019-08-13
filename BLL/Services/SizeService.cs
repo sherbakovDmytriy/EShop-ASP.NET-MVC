@@ -35,6 +35,12 @@ namespace BLL.Services
             return _mapper.Map<SizeDTO>(size);
         }
 
+        public async Task<SizeDTO> GetSizeAsNoTrackingAsync(int Id)
+        {
+            var size = await _repository.FirstAsNoTracking(s => s.Id == Id);
+            return _mapper.Map<SizeDTO>(size);
+        }
+
         #endregion
 
         #region Create Edit Delete
